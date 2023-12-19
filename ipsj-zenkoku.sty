@@ -1,0 +1,169 @@
+%--------------------------------------------------------------
+% ipsj-zenkoku.sty
+% 情報処理学会全国大会原稿 非公式LaTeXスタイルファイル
+%
+% @author: Hidekazu Suzuki (hsuzuki@meijo-u.ac.jp)
+% @version: 1.1 (9 Jan 2014)
+%--------------------------------------------------------------
+
+\usepackage{newtxtext,newtxmath}		% Time系フォントの利用
+\usepackage[dvipdfmx]{graphicx}			% 図の取り込み
+
+\usepackage{url}						% URL表記する場合のスタイル
+\urlstyle{same}							% \url{xxx}で出力されるURLのフォントを本文と同じに設定
+
+%--------------------------------------------------------------
+% ページ設定
+%--------------------------------------------------------------
+% 余白
+\usepackage{geometry}
+\geometry{top=30truemm,bottom=25truemm,left=20truemm,right=20truemm,columnsep=7truemm}
+% ページの盤面を揃える
+\flushbottom
+% ページ番号を出力しない
+\pagestyle{empty}
+
+%--------------------------------------------------------------
+% タイトル情報の定義
+%--------------------------------------------------------------
+\newcommand{\etitle}[1]{\def\@etitle{#1}}				% 英文題目
+\newcommand{\eauthor}[1]{\def\@eauthor{#1}}				% 英文著者・所属
+\newcommand{\affiliation}[1]{\def\@affiliation{#1}}		% 和文所属
+
+%--------------------------------------------------------------
+% 和文タイトルのフォーマット
+%--------------------------------------------------------------
+\def\@maketitle{%
+	\newpage\null
+    \begin{center}%
+		\let\footnote\thanks
+		{\fontsize{16truept}{16truept}\selectfont \@title \par}	  % 和文題目のフォントサイズ=16pt
+		\vskip 7truept											  % 和文題目と著者の間隔
+		{\fontsize{10truept}{10truept}\selectfont \@author \par}  % 和文著者のフォントサイズ=10pt
+        {\fontsize{10truept}{10truept}\selectfont \@affiliation}  % 和文所属のフォントサイズ=10pt
+	\end{center}%
+    \par\vskip 1.5em											  % 和文タイトルと本文の間隔
+}
+
+%--------------------------------------------------------------
+% 英文タイトルのフォーマット（ページの下部（脚注部分）に出力）
+%--------------------------------------------------------------
+\newcommand{\makeetitle}{
+	\def\@thefnmark{\relax}
+	\@footnotetext{
+        {\fontsize{9truept}{0truept}\selectfont \@etitle}\\	    % 英文題目
+		{\fontsize{9truept}{0truept}\selectfont \@eauthor}		% 英文著者・所属
+	}
+}
+
+
+%--------------------------------------------------------------
+% 脚注のインデントを全角1文字分に設定
+%--------------------------------------------------------------
+\renewcommand\@makefntext[1]{%
+	\advance\leftskip 1zw
+	\parindent 0zw
+	\noindent
+	\llap{\@makefnmark\hskip0.3zw}#1
+}
+
+  
+%--------------------------------------------------------------
+% 章節見出しの間隔調整
+%--------------------------------------------------------------
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+	{0.0\Cvs \@plus.00\Cdp \@minus.00\Cdp}%
+	{0.0\Cvs \@plus.00\Cdp}%
+	{\fontsize{10truept}{15truept}\selectfont\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+	{0.00\Cvs \@plus.00\Cdp \@minus.00\Cdp}%
+	{0.00\Cvs \@plus.00\Cdp}%
+	{\fontsize{10truept}{15truept}\selectfont\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+	{0.00\Cvs \@plus.00\Cdp \@minus.00\Cdp}%
+	{0.00\Cvs \@plus.00\Cdp}%
+	{\fontsize{10truept}{15truept}\selectfont\bfseries}}
+
+
+\renewenvironment{thebibliography}[1]{%
+	\global\let\presectionname\relax
+	\global\let\postsectionname\relax
+	\vskip 8pt											% 参考文献リストの前に8pt分の空白を挿入
+	\subsection*{\refname}\@mkboth{\refname}{\refname}	% 「参考文献」の文字サイズをsubsectionと同じに設定
+	\list{\@biblabel{\@arabic\c@enumiv}}%
+		{\settowidth\labelwidth{\@biblabel{#1}}%
+		\leftmargin\labelwidth
+		\advance\leftmargin\labelsep
+		\@openbib@code
+		\usecounter{enumiv}%
+		\let\p@enumiv\@empty
+		\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+	\sloppy
+	\clubpenalty4000
+	\@clubpenalty\clubpenalty
+	\widowpenalty4000%
+	\sfcode`\.\@m
+}
+
+
+%--------------------------------------------------------------
+% 箇条書きの上下間隔の設定
+%--------------------------------------------------------------
+
+%% 番号なし箇条書き
+\renewenvironment{itemize}{
+	\begin{list}{\textbullet}{%
+		\topsep\z@
+		\parskip\z@
+		\partopsep\z@
+		\leftmargin1.5zw
+		\labelwidth0zw
+		\labelsep0.5zw
+		\itemindent0zw
+		\listparindent1zw
+	}
+}{
+	\end{list}
+}
+
+%% 番号付き箇条書き
+\renewcommand{\labelenumi}{(\theenumi)} %enumerateのitemを(1)とする
+\renewenvironment{enumerate}[1][\z@]
+{\ifnum \@enumdepth >3\relax\@toodeep\else
+	\advance\@enumdepth\@ne
+	\edef\@enumctr{enum\romannumeral\the\@enumdepth}%
+	\list{\csname label\@enumctr\endcsname}{%
+		\topsep\z@
+		\parskip\z@
+		\itemsep\z@
+		\parsep\z@
+		\leftmargin#1 \advance\leftmargin 2.0zw
+		\labelwidth0zw
+		\labelsep0.5zw
+		\itemindent0zw
+		\listparindent1zw
+		\usecounter{\@enumctr}%
+		\def\makelabel##1{\hss\llap{##1}}
+	}%
+	\fi
+}{
+	\endlist
+}
+
+
+%--------------------------------------------------------------
+% 図表の上下間隔の設定
+%--------------------------------------------------------------
+\setlength{\floatsep}{1zh}				% ページの上下に出力される図と図の間のスペース
+\setlength{\textfloatsep}{1zh}			% ページの上下に出力される図と本文の間のスペース
+\setlength{\intextsep}{1zh}				% ページの途中に出力される図と本文の間のスペース
+\setlength{\abovecaptionskip}{2pt}		% 図表とキャプションの間のスペース
+\setlength{\belowcaptionskip}{2pt}		% 図表のキャプション下部のスペース
+
+
+%--------------------------------------------------------------
+% マクロ
+%--------------------------------------------------------------
+\newcommand{\DAG}[1]{$^{\dagger#1}$}			% 所属を示すダガー記号
+\newcommand{\figref}[1]{\figurename\ref{#1}}	% 図を参照するコマンド
+\newcommand{\tabref}[1]{\tablename\ref{#1}}		% 表を参照するコマンド

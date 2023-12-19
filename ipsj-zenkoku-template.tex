@@ -1,0 +1,149 @@
+%--------------------------------------------------------------
+% ipsj-zenkoku-template.tex
+% 情報処理学会全国大会原稿 非公式LaTeXテンプレートファイル
+%
+% @author: Hidekazu Suzuki (hsuzuki@meijo-u.ac.jp)
+% @version: 1.1 (9 Jan 2014)
+%--------------------------------------------------------------
+
+%% 本文のフォントサイズ=10pt，2段組
+\documentclass[a4j,10pt,twocolumn,uplatex]{jsarticle}
+
+\usepackage{ipsj-zenkoku}	% 全国大会用パッケージ
+
+%% 和文題目
+\title{IPSJ全国大会論文フォーマット（タイトル）}
+%% 和文著者
+\author{氏 名\DAG{1} \quad 氏 名\DAG{2} \quad 氏 名\DAG{3}}
+%% 和文所属
+\affiliation{所属\DAG{1} \qquad 所属\DAG{2} \qquad 所属\DAG{3}}
+
+%% 英文題目
+\etitle{IPSJ National Convention Paper Format (Title)}
+%% 英文著者・所属
+\eauthor{%
+	\DAG{1} Firstname Lastname, Department, University\\
+	\DAG{2} Firstname Lastname, Department, University\\
+    \DAG{3} Firstname Lastname, Department, University
+}
+
+\begin{document}
+
+\maketitle		% 和文タイトルの出力
+\makeetitle		% 英文タイトルの出力
+
+
+% 本文の行間に設定
+\setlength{\baselineskip}{1.5zh}
+
+
+\section{はじめに}
+
+毎年3月に開催される情報処理学会全国大会は，原稿のテンプレートがMicrosoft Wordしか公開されていない．
+そこで，Wordテンプレートをもとに，非公式\LaTeX テンプレートを作成した．
+本稿では本テンプレートの使い方を解説する．
+
+
+\section{ソースファイルの構成}
+
+\subsection{パッケージ}
+本テンプレートのスタイルを定義している\verb|ipsj-zenkoku|を必ず利用すること．
+その他に利用するパッケージがある場合は，適宜\verb|\usepackage{xxx}|で追加すること．
+
+\subsection{プリアンブル}
+\begin{itemize}
+    \item \verb|\title|，\verb|\etitle|：和文表題，英文表題
+    \item \verb|\author|，\verb|\affiliation|：和文著者名，和文所属
+    \item \verb|\eauthor|：英文著者名および英文所属．
+    1行に著者1名の情報をを記入し，\verb|\\|で改行すること．
+\end{itemize}
+
+\subsection{タイトルの表示}
+\verb|\maketitle|および\verb|\makeetitle|によりタイトル（題目，著者，所属）および脚注の英文表記が出力されるため，消さないように．
+
+\subsection{本文}
+IPSJ全国大会の原稿はA4で2ページ，かつファイルサイズは2MB以下である必要がある．
+
+\subsection{箇条書き}
+番号無し箇条書きは，下記のように出力される．
+\begin{itemize}
+    \item 項目1
+    \item 項目2
+\end{itemize}
+
+番号付き箇条書きは，括弧付きで表示されるようにスタイルファイルで設定している．
+\begin{enumerate}
+    \item 項目1
+    \item 項目2
+\end{enumerate}
+
+\subsection{図}
+\figref{fig:tiger}のように，PNG形式のほか，PDF形式の図形ファイルを取り込むことができる．
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[scale=1.0,clip]{fig/tiger.png}
+    \caption{トラ}
+    \label{fig:tiger}
+\end{figure}
+
+\subsection{表}
+本テンプレートでは，情報処理学会論文誌の書き方に準拠して，\tabref{tab:sample}のように罫線を少なくして仕上がりをスッキリさせている．
+図と同じく，キャプションは英文で記載する．
+下記の点に気をつけて表を作成すること．
+\begin{itemize}
+    \item 表の最上部の罫線は\verb|\hline\hline|として二重線とする．
+    \item 表の最下部は一重線とする．
+    \item その他の罫線は見出しとデータの境界などに限定する．
+\end{itemize}
+
+\begin{table}[tb]
+    \centering
+    \footnotesize	% 表中のフォントサイズをfootnotesizeに設定（必ず指定すること）
+    \caption{サンプル}
+    \label{tab:sample}
+    \begin{tabular}{l|lll}
+        \hline\hline
+         & ヘッダ1 & ヘッダ2 & ヘッダ3 \\ 
+        \hline 
+        項目1 & データ11 & データ12 & データ13 \\
+        項目2 & データ22 & データ22 & データ22 \\  
+        \hline 
+    \end{tabular}
+\end{table}
+
+\subsection{図表の参照と配置}
+本文から図表を参照する場合は，情報処理学会論文誌の\LaTeX テンプレートで使われる下記のマクロを利用する．
+\begin{itemize}
+    \item \verb|\figref{x}|：\verb|\label{x}|を設定した図の参照
+    \item \verb|\tabref{y}|：\verb|\label{y}|を設定した表の参照
+\end{itemize}
+
+図および表は段落の途中で掲載するのではなく，ページ上部か下部のどちらかに寄せて配置する．
+すなわち，\verb|\begin{figure}[z]|および\verb|\begin{table}[z]|の\texttt{z}の部分には，``\texttt{t}''（上部）または``\texttt{b}''（下部）のいずれかとする．
+
+\subsection{参考文献}
+参考文献は最後の\verb|thebibliography|環境に記載する．
+文献情報は\verb|\bibitem{label}|の後に，著者名，掲載誌名，巻，号，ページ，発行年などを入力する．
+書き方の一例として，論文誌\cite{Matsuoka22}，国際会議\cite{Suzuki13}，RFC\cite{MIPv4}を示す．
+
+
+\section{まとめ}
+
+本稿は非公式\LaTeX テンプレートに基づいて作成されている．
+本稿のソースファイルをコピーして必要な箇所を修正すれば，公式テンプレートのフォーマットにほぼ準拠した原稿PDFを作成できるため，是非利用してほしい．
+
+
+\subsection*{謝辞}
+謝辞を記載する必要がある場合は，ここに記載する．
+不要であれば\verb|\subsection*{謝辞}|ごと削除する．
+
+
+%% 参考文献
+\begin{thebibliography}{9}	% ←文献数が1桁なら9，2桁なら99を指定
+    \bibitem{Matsuoka22} 松岡　穂，鈴木秀和，内藤克浩：拡張NTMobileを用いたアプリケーションレベルで実現するシームレスIP Flow Mobility，情報処理学会論文誌, Vol.~63, No.~1, pp.~130--142, 2022.
+    \bibitem{Suzuki13} H. Suzuki, K. Naito, K. Kamienoo, et al.: NTMobile: new end-to-end communication architecture in IPv4 and IPv6 networks, Proc. of ACM MobiCom 2013, pp.~171--174, 2013.
+    \bibitem{MIPv4} C. Perkins: RFC 5944, IETF, 2010.
+\end{thebibliography}
+
+\end{document}
