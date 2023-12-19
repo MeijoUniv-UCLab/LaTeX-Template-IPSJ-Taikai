@@ -1,7 +1,3 @@
-# LaTeX-Template-IPSJ-Taikai
-IPSJ全国大会原稿の非公式LaTeXテンプレート
-
-
 # 情報処理学会全国大会の非公式LaTeXテンプレート
 
 毎年3月に開催されている「[情報処理学会全国大会](https://www.ipsj.or.jp/event/national_conv/national-conv.html)」の原稿テンプレートがWord形式しか公開されていないため，LaTeXテンプレートを作成しました（非公式）．
